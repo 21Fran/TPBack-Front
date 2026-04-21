@@ -59,5 +59,14 @@
     "ventas_ids": [
       7
     ]
+  },
+  {
+    "id": 7,
+    "nombre": "Juan",
+    "apellido": "Prueba",
+    "email": "maildeprueba@gmail.com",
+    "contraseña": "prueba123",
+    "fecha_nacimiento": "2026-04-14",
+    "ventas_ids": []
   }
 ]

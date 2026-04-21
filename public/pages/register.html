@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro - Mi Tienda Online</title>
+  <link rel="stylesheet" href="../css/global.css">
+  
+</head>
+<body class="register-style">
+  <div class="screen">
+    <div class="card" style="max-width: 400px; width: 100%;">
+      <!-- Header -->
+      <div class="card-header">
+        <h1 class="card-title">Crear cuenta</h1>
+        <p class="card-description">Completa los datos para registrarte</p>
+      </div>
+
+      <!-- Content -->
+      <div class="card-content">
+        <form onsubmit="return register(event)">
+          <!-- Nombre -->
+          <div class="form-group">
+            <label class="label" for="nombre">Nombre</label>
+            <input id="nombre" type="text" class="input" placeholder="Tu nombre" required>
+          </div>
+
+          <!-- Apellido -->
+          <div class="form-group">
+            <label class="label" for="apellido">Apellido</label>
+            <input id="apellido" type="text" class="input" placeholder="Tu apellido" required>
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <label class="label" for="email">Email</label>
+            <input id="email" type="email" class="input" placeholder="tu@email.com" required>
+          </div>
+
+          <!-- Contraseña -->
+          <div class="form-group">
+            <label class="label" for="password">Contraseña</label>
+            <input id="password" type="password" class="input" placeholder="••••••••" required>
+          </div>
+
+          <!-- Fecha de nacimiento -->
+          <div class="form-group">
+            <label class="label" for="fecha">Fecha de Nacimiento</label>
+            <input id="fecha" type="date" class="input" required>
+          </div>
+
+          <!-- Botón -->
+          <button type="submit" class="button w-full">Registrarse</button>
+        </form>
+
+        <!-- Enlace para volver -->
+        <div style="text-align: center; margin-top: 1rem;">
+          <p>¿Ya tienes cuenta? <a href="../index.html" class="link">Inicia sesión</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Importar JS -->
+  <script src="../js/register.js"></script>
+</body>
+</html>

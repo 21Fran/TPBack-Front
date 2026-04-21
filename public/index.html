@@ -1,11 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" class="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Games Shop</title>
+  <link rel="stylesheet" href="css/global.css">
+  
 </head>
-<body>
-    <h1>Hello World</h1>
+<body class="index-style">
+  <div class="screen">
+    <div class="card" style="max-width: 400px; width: 100%;">
+      <!-- Header -->
+      <div class="card-header">
+        <div class="icon-container">
+          <img src="images/LogoGameShop.png" alt="Games Shop Logo" style="width: 200px; height: 200px;">
+          
+        </div>
+        <h1 class="card-title">Inicia sesión</h1>
+        <p class="card-description">La mejor tienda de videojuegos del pais!</p>
+      </div>
+
+      <!-- Content -->
+      <div class="card-content">
+        <form onsubmit="return login(event)">
+          <!-- Email -->
+          <div class="form-group">
+            <label class="label" for="email">Email</label>
+            <input id="email" type="email" class="input" placeholder="tu@email.com" required>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <label class="label" for="password">Contraseña</label>
+            <input id="password" type="password" class="input" placeholder="••••••••" required>
+          </div>
+
+          <!-- Botón -->
+          <button type="submit" class="button w-full">Iniciar Sesión</button>
+        </form>
+      </div>
+
+              <!-- Enlace de registro -->
+  <div style="text-align: center; margin-top: 1rem;">
+    <p>¿No tienes cuenta?
+      <a href="pages/register.html" class="link">Regístrate</a>
+    </p>
+  </div>
+    </div>
+  </div>
+
+  <!-- Importar JS -->
+  <script src="js/main.js"></script>
 </body>
 </html>

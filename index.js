@@ -13,6 +13,17 @@ const port = 3000
 
 //Levantar el servidor
 app.use(express.json())
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS')
+
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(204)
+    }
+
+    next()
+})
 
 app.listen(port, () => {
     console.log(`Servidor levantado en puerto ${port}`)
@@ -30,6 +41,7 @@ app.use('/ventas', saleRoutes)
 
 //Levantar FrontEnd
 app.use(express.static('./public'))
+app.use('/public', express.static('./public'))
 
 
 

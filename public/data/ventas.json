@@ -1,0 +1,203 @@
+[
+    {
+        "id": 1,
+        "id_usuario": 1,
+        "fecha": "2026-03-15",
+        "total": 727,
+        "dirección": "Av. Siempre Viva 742",
+        "productos": [
+            {
+                "id": 1,
+                "nombre": "PlayStation 5",
+                "cantidad": 1,
+                "precio": 599
+            },
+            {
+                "id": 5,
+                "nombre": "Control DualSense PS5",
+                "cantidad": 1,
+                "precio": 69
+            },
+            {
+                "id": 8,
+                "nombre": "God of War: Ragnarök",
+                "cantidad": 1,
+                "precio": 59
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "id_usuario": 2,
+        "fecha": "2026-03-18",
+        "total": 478,
+        "dirección": "Calle Mitre 1250",
+        "productos": [
+            {
+                "id": 3,
+                "nombre": "Nintendo Switch OLED",
+                "cantidad": 1,
+                "precio": 399
+            },
+            {
+                "id": 7,
+                "nombre": "The Legend of Zelda: Tears of the Kingdom",
+                "cantidad": 1,
+                "precio": 69
+            },
+            {
+                "id": 10,
+                "nombre": "Camiseta Zelda",
+                "cantidad": 2,
+                "precio": 25
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "id_usuario": 3,
+        "fecha": "2026-03-21",
+        "total": 663,
+        "dirección": "San Martín 333",
+        "productos": [
+            {
+                "id": 2,
+                "nombre": "Xbox Series X",
+                "cantidad": 1,
+                "precio": 549
+            },
+            {
+                "id": 6,
+                "nombre": "Mando Xbox Series X",
+                "cantidad": 1,
+                "precio": 65
+            },
+            {
+                "id": 9,
+                "nombre": "Halo Infinite",
+                "cantidad": 1,
+                "precio": 49
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "id_usuario": 2,
+        "fecha": "2026-03-24",
+        "total": 264,
+        "dirección": "Belgrano 89",
+        "productos": [
+            {
+                "id": 14,
+                "nombre": "Silla Gamer Pro",
+                "cantidad": 1,
+                "precio": 199
+            },
+            {
+                "id": 13,
+                "nombre": "Lámpara Pac-Man",
+                "cantidad": 1,
+                "precio": 30
+            },
+            {
+                "id": 15,
+                "nombre": "Reloj de Pared Sonic",
+                "cantidad": 1,
+                "precio": 25
+            },
+            {
+                "id": 12,
+                "nombre": "Gorra Gamer",
+                "cantidad": 1,
+                "precio": 20
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "id_usuario": 4,
+        "fecha": "2026-03-28",
+        "total": 228,
+        "dirección": "Rivadavia 450",
+        "productos": [
+            {
+                "id": 4,
+                "nombre": "Auriculares Gamer HyperX",
+                "cantidad": 2,
+                "precio": 79
+            },
+            {
+                "id": 11,
+                "nombre": "Buzo PlayStation",
+                "cantidad": 1,
+                "precio": 45
+            },
+            {
+                "id": 12,
+                "nombre": "Gorra Gamer",
+                "cantidad": 1,
+                "precio": 20
+            },
+            {
+                "id": 15,
+                "nombre": "Reloj de Pared Sonic",
+                "cantidad": 1,
+                "precio": 25
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "id_usuario": 5,
+        "fecha": "2026-04-02",
+        "total": 178,
+        "dirección": "Alsina 221",
+        "productos": [
+            {
+                "id": 5,
+                "nombre": "Control DualSense PS5",
+                "cantidad": 1,
+                "precio": 69
+            },
+            {
+                "id": 8,
+                "nombre": "God of War: Ragnarök",
+                "cantidad": 1,
+                "precio": 59
+            },
+            {
+                "id": 10,
+                "nombre": "Camiseta Zelda",
+                "cantidad": 2,
+                "precio": 25
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "id_usuario": 6,
+        "fecha": "2026-04-04",
+        "total": 674,
+        "dirección": "Corrientes 987",
+        "productos": [
+            {
+                "id": 2,
+                "nombre": "Xbox Series X",
+                "cantidad": 1,
+                "precio": 549
+            },
+            {
+                "id": 6,
+                "nombre": "Mando Xbox Series X",
+                "cantidad": 1,
+                "precio": 65
+            },
+            {
+                "id": 13,
+                "nombre": "Lámpara Pac-Man",
+                "cantidad": 2,
+                "precio": 30
+            }
+        ]
+    }
+]

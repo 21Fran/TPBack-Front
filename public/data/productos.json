@@ -1,0 +1,130 @@
+{
+  "electronica": [
+    {
+      "id": 1,
+      "nombre": "PlayStation 5",
+      "desc": "Consola de nueva generacion con almacenamiento SSD ultrarrapido y graficos 4K.",
+      "precio": 599,
+      "imagen": "https://arsonyb2c.vtexassets.com/arquivos/ids/368377/Imagen-02_2000-x-2000-px.jpg.jpg?v=638893889600130000",
+      "en_oferta": true
+    },
+    {
+      "id": 2,
+      "nombre": "Xbox Series X",
+      "desc": "Consola potente para juegos AAA con soporte para 4K y alta tasa de cuadros.",
+      "precio": 549,
+      "imagen": "https://cms-assets.xboxservices.com/assets/bc/40/bc40fdf3-85a6-4c36-af92-dca2d36fc7e5.png?n=642227_Hero-Gallery-0_A1_857x676.png",
+      "en_oferta": false
+    },
+    {
+      "id": 3,
+      "nombre": "Nintendo Switch OLED",
+      "desc": "Consola hibrida con pantalla OLED ideal para jugar en casa o en movimiento.",
+      "precio": 399,
+      "imagen": "https://nextgames.com.ar/img/Public/1040-producto-switch-neon-1-3964.jpg",
+      "en_oferta": true
+    },
+    {
+      "id": 4,
+      "nombre": "Auriculares Gamer HyperX",
+      "desc": "Auriculares inalambricos con gran autonomia y sonido envolvente para gaming.",
+      "precio": 79,
+      "imagen": "https://row.hyperx.com/cdn/shop/files/hyperx_cloud_alpha_wireless_1_main.jpg?v=1745914432",
+      "en_oferta": false
+    },
+    {
+      "id": 5,
+      "nombre": "Control DualSense PS5",
+      "desc": "Control ergonomico con respuesta haptica y gatillos adaptativos.",
+      "precio": 69,
+      "imagen": "https://arsonyb2c.vtexassets.com/arquivos/ids/348023/PS5_DS_Pshot_A.jpg?v=638767911345030000",
+      "en_oferta": false
+    },
+    {
+      "id": 6,
+      "nombre": "Mando Xbox Series X",
+      "desc": "Control oficial de Xbox con gran precision y comodidad para largas sesiones.",
+      "precio": 65,
+      "imagen": "https://m.media-amazon.com/images/I/61YNiiJizXL._SL1500_.jpg",
+      "en_oferta": true
+    }
+  ],
+  "juegos": [
+    {
+      "id": 7,
+      "nombre": "The Legend of Zelda: Tears of the Kingdom",
+      "desc": "Aventura de mundo abierto con exploracion, puzzles y combate en Hyrule.",
+      "precio": 69,
+      "imagen": "https://www.cdmarket.com.ar/Image/0/600_750-91O9Uk5oWAL._SL1500_.jpg",
+      "en_oferta": false
+    },
+    {
+      "id": 8,
+      "nombre": "God of War: Ragnarök",
+      "desc": "Accion cinematografica con historia epica inspirada en la mitologia nordica.",
+      "precio": 59,
+      "imagen": "https://media.vandal.net/m/90451/god-of-war-ragnarok-20221131016774_1.jpg",
+      "en_oferta": true
+    },
+    {
+      "id": 9,
+      "nombre": "Halo Infinite",
+      "desc": "Shooter futurista con campana y multijugador competitivo.",
+      "precio": 49,
+      "imagen": "https://www.storegames.ar/files/images/productos/1644613415-halo-infinite-xbox-one.jpg",
+      "en_oferta": false
+    }
+  ],
+  "ropa": [
+    {
+      "id": 10,
+      "nombre": "Camiseta Zelda",
+      "desc": "Remera de algodon con diseno inspirado en The Legend of Zelda.",
+      "precio": 25,
+      "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuYEn_KFwFvFlNJoRdy5EsFM6HPlNgvdrGeg&s",
+      "en_oferta": true
+    },
+    {
+      "id": 11,
+      "nombre": "Buzo PlayStation",
+      "desc": "Buzo comodo con estampa PlayStation para uso casual.",
+      "precio": 45,
+      "imagen": "https://www.moha.com.ar/producto/3-21-010-10/md/3.jpg",
+      "en_oferta": false
+    },
+    {
+      "id": 12,
+      "nombre": "Gorra Gamer",
+      "desc": "Gorra ajustable estilo gamer para complementar tu outfit.",
+      "precio": 20,
+      "imagen": "https://http2.mlstatic.com/D_NQ_NP_747898-MLA78198244063_082024-O.webp",
+      "en_oferta": false
+    }
+  ],
+  "hogar": [
+    {
+      "id": 13,
+      "nombre": "Lámpara Pac-Man",
+      "desc": "Lampara decorativa tematica de Pac-Man para escritorio o habitacion.",
+      "precio": 30,
+      "imagen": "https://i0.wp.com/tienda.ohmyshop.com.ar/wp-content/uploads/2019/03/FB-VIR-1338-C-4.jpg?fit=600%2C600&ssl=1",
+      "en_oferta": true
+    },
+    {
+      "id": 14,
+      "nombre": "Silla Gamer Pro",
+      "desc": "Silla ergonomica con soporte lumbar para sesiones prolongadas.",
+      "precio": 199,
+      "imagen": "https://images.fravega.com/f500/58646d7217b8b76db36de8d8bbefc8a6.jpg",
+      "en_oferta": false
+    },
+    {
+      "id": 15,
+      "nombre": "Reloj de Pared Sonic",
+      "desc": "Reloj de pared coleccionable con diseno del universo Sonic.",
+      "precio": 25,
+      "imagen": "https://kidslicensing.com/wp-content/uploads/2023/04/SNC3002.jpg",
+      "en_oferta": true
+    }
+  ]
+}
