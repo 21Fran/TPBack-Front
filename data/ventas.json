@@ -1,0 +1,88 @@
+[
+  {
+    "id": 1,
+    "id_usuario": 1,
+    "fecha": "2026-03-15",
+    "total": 727,
+    "dirección": "Av. Siempre Viva 742",
+    "productos": [
+      1,
+      5,
+      8
+    ]
+  },
+  {
+    "id": 2,
+    "id_usuario": 2,
+    "fecha": "2026-03-18",
+    "total": 478,
+    "dirección": "Calle Mitre 1250",
+    "productos": [
+      3,
+      7,
+      10
+    ]
+  },
+  {
+    "id": 3,
+    "id_usuario": 3,
+    "fecha": "2026-03-21",
+    "total": 663,
+    "dirección": "San Martín 333",
+    "productos": [
+      2,
+      6,
+      9
+    ]
+  },
+  {
+    "id": 4,
+    "id_usuario": 2,
+    "fecha": "2026-03-24",
+    "total": 264,
+    "dirección": "Belgrano 89",
+    "productos": [
+      14,
+      13,
+      15,
+      12
+    ]
+  },
+  {
+    "id": 5,
+    "id_usuario": 4,
+    "fecha": "2026-03-28",
+    "total": 228,
+    "dirección": "Rivadavia 450",
+    "productos": [
+      4,
+      11,
+      12,
+      15
+    ]
+  },
+  {
+    "id": 6,
+    "id_usuario": 5,
+    "fecha": "2026-04-02",
+    "total": 178,
+    "dirección": "Alsina 221",
+    "productos": [
+      5,
+      8,
+      10
+    ]
+  },
+  {
+    "id": 7,
+    "id_usuario": 6,
+    "fecha": "2026-04-04",
+    "total": 674,
+    "dirección": "Corrientes 987",
+    "productos": [
+      2,
+      6,
+      13
+    ]
+  }
+]
