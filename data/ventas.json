@@ -84,5 +84,17 @@
       6,
       13
     ]
+  },
+  {
+    "id": 8,
+    "id_usuario": 7,
+    "fecha": "2026-04-21",
+    "total": 1547,
+    "dirección": "Cordoba",
+    "productos": [
+      1,
+      2,
+      3
+    ]
   }
 ]

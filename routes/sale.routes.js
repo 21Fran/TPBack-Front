@@ -1,14 +1,23 @@
 import { Router } from "express";
 import {readFile, writeFile} from 'fs/promises'
 import { get_user_by_id } from "../utils/user.js";
+import { dirname, join } from 'path'
+import { fileURLToPath } from 'url'
 
 const router = Router()
 
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const salesFilePath = join(__dirname, '../data/ventas.json')
+const usersFilePath = join(__dirname, '../data/usuarios.json')
+
 //Rutas de ventas
-const fileVentas = await readFile('./data/ventas.json', 'utf-8')
+const fileVentas = await readFile(salesFilePath, 'utf-8')
 const saleData = JSON.parse(fileVentas)
-const fileUsers = await readFile('./data/usuarios.json', 'utf-8')
-const userData = JSON.parse(fileUsers)
+const fileUsers = await readFile(usersFilePath, 'utf-8')
+let userData = JSON.parse(fileUsers)
+
+const saveSales = () => writeFile(salesFilePath, JSON.stringify(saleData, null, 2))
+const saveUsers = () => writeFile(usersFilePath, JSON.stringify(userData, null, 2))
 
 const normalizeProductIds = (productos) => {
     if (!Array.isArray(productos)) {
@@ -48,7 +57,7 @@ saleData.forEach((sale) => {
 })
 
 if (salesWereNormalized) {
-    await writeFile('./data/ventas.json', JSON.stringify(saleData, null, 2))
+    await saveSales()
 }
 
 //Get de ventas
@@ -67,7 +76,7 @@ router.get('/:id', (req, res) => {
 })
 
 //Post de ventas
-router.post('', (req, res) => {
+router.post('', async (req, res) => {
     const { id_usuario, fecha, total, dirección, productos } = req.body
 
     if (id_usuario === undefined || !fecha || total === undefined || !dirección || productos === undefined) {
@@ -75,6 +84,9 @@ router.post('', (req, res) => {
     }
 
     try {
+        const refreshedUsers = await readFile(usersFilePath, 'utf-8')
+        userData = JSON.parse(refreshedUsers)
+
         const userId = parseInt(id_usuario, 10)
         const normalizedProducts = normalizeProductIds(productos)
 
@@ -101,8 +113,7 @@ router.post('', (req, res) => {
             userData[userIndex].ventas_ids = []
         }
         userData[userIndex].ventas_ids.push(newSale.id)
-        writeFile('./data/ventas.json', JSON.stringify(saleData, null, 2))
-        writeFile('./data/usuarios.json', JSON.stringify(userData, null, 2))
+        await Promise.all([saveSales(), saveUsers()])
         res.status(201).json({ message: 'Venta creada', venta: newSale })
     }
     catch (error) {
@@ -142,7 +153,7 @@ router.post('/detail', (req, res) => {
 })
 
 //Put de ventas
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
     const saleId = parseInt(req.params.id, 10)
     const newTotal = req.body.total
     try {
@@ -150,7 +161,7 @@ router.put('/:id', (req, res) => {
         if (index !== -1)
         {
             saleData[index].total = newTotal
-            writeFile('./data/ventas.json', JSON.stringify(saleData, null, 2))
+            await saveSales()
             res.status(200).json({ message: 'Venta actualizada' })
         }
         else
@@ -166,7 +177,7 @@ router.put('/:id', (req, res) => {
 
 
 //Delete de ventas
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
     const saleId = parseInt(req.params.id, 10)
     try {
         const index = saleData.findIndex(v => v.id === saleId)
@@ -180,8 +191,7 @@ router.delete('/:id', (req, res) => {
                 userData[userIndex].ventas_ids = userData[userIndex].ventas_ids.filter(id => id !== saleId)
             }
 
-            writeFile('./data/ventas.json', JSON.stringify(saleData, null, 2))
-            writeFile('./data/usuarios.json', JSON.stringify(userData, null, 2))
+            await Promise.all([saveSales(), saveUsers()])
             res.status(200).json({ message: 'Venta eliminada' })
         }
         else{

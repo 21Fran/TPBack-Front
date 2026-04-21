@@ -67,6 +67,8 @@
     "email": "maildeprueba@gmail.com",
     "contraseña": "prueba123",
     "fecha_nacimiento": "2026-04-14",
-    "ventas_ids": []
+    "ventas_ids": [
+      8
+    ]
   }
 ]

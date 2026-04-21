@@ -99,6 +99,8 @@
 
   <ul id="cart-items"></ul>
 
+  <input id="delivery-address" type="text" class="input" placeholder="Dirección de entrega" style="margin: 0.5rem 0;">
+
   <p id="cart-total">Total: $0</p>
 
   <button class="button-sm" onclick="checkout()" style="width:100%; margin-top:0.5rem;">Comprar</button>
@@ -123,6 +125,12 @@
     <p id="product-count"></p>
     <div class="grid" id="product-grid"></div>
   </main>
+</section>
+
+<section class="purchase-history">
+  <h3>Historial de compras</h3>
+  <p id="purchase-history-empty" class="history-empty">Cargando compras...</p>
+  <ul id="purchase-history-list" class="history-list"></ul>
 </section>
 
 
