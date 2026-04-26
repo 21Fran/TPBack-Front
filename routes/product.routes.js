@@ -8,6 +8,8 @@ const productData = JSON.parse(fileProductos)
 
 const router = Router()
 
+const isNonEmptyString = (value) => typeof value === 'string' && value.trim().length > 0
+
 
 
 //Get de productos
@@ -36,11 +38,23 @@ router.get('/:id', (req, res) => {
 })
 
 //Post de productos
-router.post('', (req, res) => {
+router.post('', async (req, res) => {
     const { categoria, nombre, desc, precio, imagen, en_oferta } = req.body
 
     if (!categoria || !nombre || !desc || precio === undefined || !imagen || en_oferta === undefined) {
         return res.status(400).json({ message: 'Faltan datos obligatorios' })
+    }
+
+    if (!isNonEmptyString(categoria) || !isNonEmptyString(nombre) || !isNonEmptyString(desc) || !isNonEmptyString(imagen)) {
+        return res.status(400).json({ message: 'categoria, nombre, desc e imagen deben ser texto no vacio' })
+    }
+
+    if (typeof precio !== 'number' || !Number.isFinite(precio) || precio < 0) {
+        return res.status(400).json({ message: 'precio debe ser un numero valido mayor o igual a 0' })
+    }
+
+    if (typeof en_oferta !== 'boolean') {
+        return res.status(400).json({ message: 'en_oferta debe ser booleano' })
     }
 
     try {
@@ -59,7 +73,7 @@ router.post('', (req, res) => {
         }
 
         productData[categoria].push(newProduct)
-        writeFile('./data/productos.json', JSON.stringify(productData, null, 2))
+        await writeFile('./data/productos.json', JSON.stringify(productData, null, 2))
         res.status(201).json({ message: 'Producto creado', producto: newProduct })
     }
     catch (error) {

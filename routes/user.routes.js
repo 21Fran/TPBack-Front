@@ -10,10 +10,13 @@ const salesFilePath = join(__dirname, '../data/ventas.json')
 //Rutas de usuarios
 const file = await readFile(usersFilePath, 'utf-8')
 const userData = JSON.parse(file)
-const salesFile = await readFile(salesFilePath, 'utf-8')
-const saleData = JSON.parse(salesFile)
 
 const saveUsers = () => writeFile(usersFilePath, JSON.stringify(userData, null, 2))
+
+const getSalesData = async () => {
+    const refreshedSales = await readFile(salesFilePath, 'utf-8')
+    return JSON.parse(refreshedSales)
+}
 
 const sanitizeUser = (user) => {
     if (!user) {
@@ -121,22 +124,26 @@ router.put('/:id', async (req, res) => {
 //Delete de usuarios con la validacion de que no tenga ventas asociadas
 router.delete('/:id', async (req, res) => {
     const userId = parseInt(req.params.id, 10)
+
+    if (Number.isNaN(userId)) {
+        return res.status(400).json({ message: 'ID de usuario invalido' })
+    }
+
     try {
-        const hasSales = saleData.some(v => v.id_usuario === userId)
-        if (hasSales) {
-            return res.status(400).json({ message: 'No se puede eliminar el usuario porque tiene ventas asociadas' })
+        const index = userData.findIndex(u => u.id === userId)
+        if (index === -1) {
+            return res.status(404).json({ message: 'Usuario no encontrado' })
         }
 
-        const index = userData.findIndex(u => u.id === userId)
-        if(index !== -1)
-        {
-            userData.splice(index, 1)
-            await saveUsers()
-            res.status(200).json({ message: 'Usuario eliminado' })
+        const currentSales = await getSalesData()
+        const hasSales = currentSales.some(v => v.id_usuario === userId)
+        if (hasSales) {
+            return res.status(409).json({ message: 'No se puede eliminar el usuario porque tiene ventas asociadas' })
         }
-        else{
-            res.status(400).json({ message: 'Usuario no encontrado' })
-        }
+
+        userData.splice(index, 1)
+        await saveUsers()
+        res.status(200).json({ message: 'Usuario eliminado' })
     }
     catch (error) {
         res.status(500).json({ message: 'Error al eliminar el usuario' })

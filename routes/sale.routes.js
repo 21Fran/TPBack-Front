@@ -9,6 +9,7 @@ const router = Router()
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const salesFilePath = join(__dirname, '../data/ventas.json')
 const usersFilePath = join(__dirname, '../data/usuarios.json')
+const productsFilePath = join(__dirname, '../data/productos.json')
 
 //Rutas de ventas
 const fileVentas = await readFile(salesFilePath, 'utf-8')
@@ -18,6 +19,16 @@ let userData = JSON.parse(fileUsers)
 
 const saveSales = () => writeFile(salesFilePath, JSON.stringify(saleData, null, 2))
 const saveUsers = () => writeFile(usersFilePath, JSON.stringify(userData, null, 2))
+
+const getAllProductIds = async () => {
+    const productsFile = await readFile(productsFilePath, 'utf-8')
+    const productsByCategory = JSON.parse(productsFile)
+    return new Set(
+        Object.values(productsByCategory)
+            .flat()
+            .map(product => product.id)
+    )
+}
 
 const normalizeProductIds = (productos) => {
     if (!Array.isArray(productos)) {
@@ -88,10 +99,28 @@ router.post('', async (req, res) => {
         userData = JSON.parse(refreshedUsers)
 
         const userId = parseInt(id_usuario, 10)
+        const parsedTotal = Number(total)
         const normalizedProducts = normalizeProductIds(productos)
+
+        if (Number.isNaN(userId)) {
+            return res.status(400).json({ message: 'id_usuario debe ser un numero valido' })
+        }
+
+        if (!Number.isFinite(parsedTotal) || parsedTotal < 0) {
+            return res.status(400).json({ message: 'total debe ser un numero valido mayor o igual a 0' })
+        }
 
         if (!normalizedProducts || normalizedProducts.length === 0) {
             return res.status(400).json({ message: 'Productos debe ser un arreglo de IDs de producto' })
+        }
+
+        const allProductIds = await getAllProductIds()
+        const invalidProducts = normalizedProducts.filter(productId => !allProductIds.has(productId))
+        if (invalidProducts.length > 0) {
+            return res.status(400).json({
+                message: 'Hay productos que no existen',
+                productos_invalidos: invalidProducts
+            })
         }
 
         const userIndex = userData.findIndex(u => u.id === userId)
@@ -103,7 +132,7 @@ router.post('', async (req, res) => {
             id: saleData.length > 0 ? Math.max(...saleData.map(v => v.id)) + 1 : 1,
             id_usuario: userId,
             fecha,
-            total,
+            total: parsedTotal,
             dirección,
             productos: normalizedProducts
         }
@@ -126,6 +155,11 @@ router.post('/detail', (req, res) => {
     const from = req.body.from
     const to = req.body.to
     let aux_name = ''
+
+    if (!from || !to) {
+        return res.status(400).json({ message: 'Debe enviar from y to para filtrar por rango de fechas' })
+    }
+
     try {
         const array = saleData.filter(v => v.fecha >= from && v.fecha <= to)
         const result = array.map(v => {
@@ -138,13 +172,16 @@ router.post('/detail', (req, res) => {
             total : v.total,
             }
         })
-        if(result)
-        {
-            res.status(200).json(result)
+
+        if (result.length === 0) {
+            return res.status(404).json({ message: 'No se encontraron ventas en ese rango de fechas' })
         }
-        else{
-            res.status(400).json({ message: 'No se encontraron ventas en ese rango de fechas' })
-        }
+
+        res.status(200).json({
+            message: 'Detalle de ventas filtrado por rango de fechas',
+            filtro: { from, to },
+            ventas: result
+        })
     }
     catch (error) {
         res.status(500).json({ message: 'Error al obtener las ventas' })

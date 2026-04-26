@@ -17,7 +17,8 @@
     "contraseña": "lucia123",
     "ventas_ids": [
       2,
-      4
+      4,
+      10
     ]
   },
   {
@@ -69,6 +70,30 @@
     "fecha_nacimiento": "2026-04-14",
     "ventas_ids": [
       8
+    ]
+  },
+  {
+    "id": 8,
+    "nombre": "Test",
+    "apellido": "Integracion",
+    "email": "it_1777220651711@test.com",
+    "contraseña": "1234",
+    "fecha_nacimiento": "2000-01-01",
+    "ventas_ids": [
+      9
+    ]
+  },
+  {
+    "id": 9,
+    "nombre": "Fran",
+    "apellido": "Probando",
+    "email": "prueba@gmail.com",
+    "contraseña": "123",
+    "fecha_nacimiento": "1995-03-08",
+    "ventas_ids": [
+      11,
+      12,
+      13
     ]
   }
 ]

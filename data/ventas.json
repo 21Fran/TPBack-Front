@@ -96,5 +96,69 @@
       2,
       3
     ]
+  },
+  {
+    "id": 9,
+    "id_usuario": 8,
+    "fecha": "2026-04-26",
+    "total": 599,
+    "dirección": "Calle 123",
+    "productos": [
+      1
+    ]
+  },
+  {
+    "id": 10,
+    "id_usuario": 2,
+    "fecha": "2026-04-26",
+    "total": 1671,
+    "dirección": "Colon 3450",
+    "productos": [
+      2,
+      1,
+      3,
+      8,
+      12,
+      11
+    ]
+  },
+  {
+    "id": 11,
+    "id_usuario": 9,
+    "fecha": "2026-04-26",
+    "total": 1671,
+    "dirección": "Cordoba, Colon 1532",
+    "productos": [
+      2,
+      1,
+      3,
+      8,
+      12,
+      11
+    ]
+  },
+  {
+    "id": 12,
+    "id_usuario": 9,
+    "fecha": "2026-04-26",
+    "total": 1691,
+    "dirección": "Cordoba, Colon 1532",
+    "productos": [
+      3,
+      4,
+      2,
+      1,
+      6
+    ]
+  },
+  {
+    "id": 13,
+    "id_usuario": 9,
+    "fecha": "2026-04-26",
+    "total": 399,
+    "dirección": "Buenos Aires, Palermo 2344",
+    "productos": [
+      3
+    ]
   }
 ]
