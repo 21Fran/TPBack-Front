@@ -6,6 +6,7 @@ const userGreeting = document.getElementById('user-greeting');
 const addressInput = document.getElementById('delivery-address');
 const historyList = document.getElementById('purchase-history-list');
 const historyEmpty = document.getElementById('purchase-history-empty');
+const adminUsersLink = document.getElementById('admin-users-link');
 const API_BASE_URL = (() => {
   if (window.location.protocol === 'file:') {
     return 'http://localhost:3000';
@@ -76,6 +77,10 @@ function loadLoggedUserName() {
   }
 
   userGreeting.textContent = `Hola, ${loggedUser.nombre || 'invitado'}`;
+
+  if (adminUsersLink) {
+    adminUsersLink.hidden = !(loggedUser && loggedUser.email === 'admin@admin.com');
+  }
 }
 
 function filterCategory(category, btn) {

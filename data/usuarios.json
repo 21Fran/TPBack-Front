@@ -95,5 +95,22 @@
       12,
       13
     ]
+  },
+  {
+    "id": 10,
+    "nombre": "admin",
+    "apellido": "",
+    "email": "admin@admin.com",
+    "contraseña": "admin",
+    "ventas_ids": []
+  },
+  {
+    "id": 11,
+    "nombre": "Creado por pagina",
+    "apellido": "1",
+    "email": "creado@gmail.com",
+    "contraseña": "123",
+    "fecha_nacimiento": "2026-05-01",
+    "ventas_ids": []
   }
 ]

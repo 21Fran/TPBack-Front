@@ -37,7 +37,11 @@ async function login(e) {
 
     sessionStorage.setItem("usuario", JSON.stringify(data.usuario));
     alert(`¡Bienvenido, ${data.usuario.nombre}!`);
-    window.location.href = "pages/home.html";
+    if (data.usuario.email === "admin@admin.com") {
+      window.location.href = "admin/index.html";
+    } else {
+      window.location.href = "pages/home.html";
+    }
   } catch (error) {
     alert("No se pudo conectar con el servidor.");
   }

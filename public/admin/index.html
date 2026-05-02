@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Usuarios</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./admin.css">
+</head>
+<body class="admin-body">
+  <main class="admin-shell">
+    <header class="admin-header">
+      <h1 class="admin-title">Gestión de Usuarios</h1>
+      <div class="admin-actions">
+        <a class="ghost-button" id="admin-home-link" href="../pages/home.html" hidden>
+          Volver a inicio
+        </a>
+        <button class="primary-button" type="button" id="open-user-modal">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 3.5a.75.75 0 0 1 .75.75v5h5a.75.75 0 1 1 0 1.5h-5v5a.75.75 0 1 1-1.5 0v-5h-5a.75.75 0 1 1 0-1.5h5v-5A.75.75 0 0 1 10 3.5z"></path></svg>
+          </span>
+          Nuevo Usuario
+        </button>
+      </div>
+    </header>
+
+    <section class="admin-toolbar" aria-label="Búsqueda y filtros">
+      <label class="search-field">
+        <span class="icon" aria-hidden="true">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M8.5 3.5a5 5 0 1 1 0 10a5 5 0 0 1 0-10zm0-1.5a6.5 6.5 0 1 0 3.96 11.64l3.95 3.95a.75.75 0 1 0 1.06-1.06l-3.95-3.95A6.5 6.5 0 0 0 8.5 2z"></path></svg>
+        </span>
+        <input id="search-input" type="search" placeholder="Buscar por nombre o mail..." autocomplete="off">
+      </label>
+    </section>
+
+    <section class="admin-card" aria-label="Listado de usuarios">
+      <div class="table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>ID de ventas</th>
+              <th class="action-col" aria-label="Acciones"></th>
+            </tr>
+          </thead>
+          <tbody id="clients-body"></tbody>
+        </table>
+      </div>
+      <footer class="admin-footer">
+        <div class="rows-control">
+          <span>Filas por página:</span>
+          <select id="rows-select" class="select-small" aria-label="Filas por página">
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="20">20</option>
+          </select>
+        </div>
+        <div class="page-info">
+          <span id="range-text">Mostrando 0 - 0 de 0</span>
+        </div>
+        <div class="pagination">
+          <div class="pager-buttons">
+            <button class="icon-button" type="button" data-page-action="first" aria-label="Primera página">
+              <svg viewBox="0 0 20 20" fill="currentColor"><path d="M7.47 4.47a.75.75 0 0 1 1.06 0l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 1 1-1.06-1.06L11.44 10 7.47 6.03a.75.75 0 0 1 0-1.06z"></path><path d="M4 4.75A.75.75 0 0 1 4.75 4h1.5a.75.75 0 0 1 0 1.5h-.75v9h.75a.75.75 0 0 1 0 1.5h-1.5A.75.75 0 0 1 4 15.25v-10.5z"></path></svg>
+            </button>
+            <button class="icon-button" type="button" data-page-action="prev" aria-label="Página anterior">
+              <svg viewBox="0 0 20 20" fill="currentColor"><path d="M12.53 4.47a.75.75 0 0 1 0 1.06L8.06 10l4.47 4.47a.75.75 0 0 1-1.06 1.06l-5-5a.75.75 0 0 1 0-1.06l5-5a.75.75 0 0 1 1.06 0z"></path></svg>
+            </button>
+          </div>
+          <div class="page-input">
+            <input id="page-input" type="number" min="1" value="1" aria-label="Página actual">
+            <span id="page-total">de 1</span>
+          </div>
+          <div class="pager-buttons">
+            <button class="icon-button" type="button" data-page-action="next" aria-label="Página siguiente">
+              <svg viewBox="0 0 20 20" fill="currentColor"><path d="M7.47 4.47a.75.75 0 0 1 1.06 0l5 5a.75.75 0 0 1 0 1.06l-5 5a.75.75 0 1 1-1.06-1.06L11.44 10 7.47 6.03a.75.75 0 0 1 0-1.06z"></path></svg>
+            </button>
+            <button class="icon-button" type="button" data-page-action="last" aria-label="Última página">
+              <svg viewBox="0 0 20 20" fill="currentColor"><path d="M12.53 4.47a.75.75 0 0 1 0 1.06L8.06 10l4.47 4.47a.75.75 0 1 1-1.06 1.06l-5-5a.75.75 0 0 1 0-1.06l5-5a.75.75 0 0 1 1.06 0z"></path><path d="M16 4.75a.75.75 0 0 0-.75-.75h-1.5a.75.75 0 0 0 0 1.5h.75v9h-.75a.75.75 0 0 0 0 1.5h1.5a.75.75 0 0 0 .75-.75v-10.5z"></path></svg>
+            </button>
+          </div>
+        </div>
+      </footer>
+    </section>
+  </main>
+
+  <div class="modal-backdrop" id="user-modal" role="dialog" aria-modal="true" aria-labelledby="user-modal-title" hidden>
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title" id="user-modal-title">Nuevo usuario</div>
+        <button class="modal-close" type="button" id="close-user-modal" aria-label="Cerrar">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M4.47 4.47a.75.75 0 0 1 1.06 0L10 8.94l4.47-4.47a.75.75 0 1 1 1.06 1.06L11.06 10l4.47 4.47a.75.75 0 0 1-1.06 1.06L10 11.06l-4.47 4.47a.75.75 0 0 1-1.06-1.06L8.94 10 4.47 5.53a.75.75 0 0 1 0-1.06z"></path></svg>
+        </button>
+      </div>
+      <form class="modal-body" id="user-form">
+        <div class="modal-section">
+          <div class="section-title">1. Datos del usuario</div>
+          <div class="form-grid">
+            <label class="field">
+              <span>Nombre</span>
+              <input type="text" name="nombre" placeholder="Nombre" required>
+            </label>
+            <label class="field">
+              <span>Apellido</span>
+              <input type="text" name="apellido" placeholder="Apellido" required>
+            </label>
+            <label class="field">
+              <span>Email</span>
+              <input type="email" name="email" placeholder="usuario@mail.com" required>
+            </label>
+            <label class="field">
+              <span>Contrasena</span>
+              <input type="password" name="contrasena" placeholder="********" required>
+            </label>
+            <label class="field">
+              <span>Fecha de nacimiento</span>
+              <input type="date" name="fecha_nacimiento">
+            </label>
+          </div>
+        </div>
+      </form>
+      <div class="modal-footer">
+        <button class="ghost-button" type="button" id="cancel-user">Cancelar</button>
+        <button class="primary-button" type="submit" form="user-form">Crear usuario</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./admin.js"></script>
+</body>
+</html>
