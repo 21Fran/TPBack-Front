@@ -102,7 +102,9 @@
     "apellido": "",
     "email": "admin@admin.com",
     "contraseña": "admin",
-    "ventas_ids": []
+    "ventas_ids": [
+      14
+    ]
   },
   {
     "id": 11,
