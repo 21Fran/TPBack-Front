@@ -1,13 +1,13 @@
 const API_BASE_URL = (() => {
   if (window.location.protocol === "file:") {
-    return "http://localhost:3000";
+    return "http://localhost:3002";
   }
 
-  if (window.location.port === "3000") {
+  if (window.location.port === "3002") {
     return window.location.origin;
   }
 
-  return `${window.location.protocol}//${window.location.hostname}:3000`;
+  return `${window.location.protocol}//${window.location.hostname}:3002`;
 })();
 
 const clientsBody = document.getElementById("clients-body");

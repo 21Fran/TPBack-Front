@@ -1,51 +1,49 @@
 import { Router } from "express";
-import { readFile, writeFile } from 'fs/promises'
-import { dirname, join } from 'path'
-import { fileURLToPath } from 'url'
-
-const __dirname = dirname(fileURLToPath(import.meta.url))
-const usersFilePath = join(__dirname, '../data/usuarios.json')
-const salesFilePath = join(__dirname, '../data/ventas.json')
-
-//Rutas de usuarios
-const file = await readFile(usersFilePath, 'utf-8')
-const userData = JSON.parse(file)
-
-const saveUsers = () => writeFile(usersFilePath, JSON.stringify(userData, null, 2))
-
-const getSalesData = async () => {
-    const refreshedSales = await readFile(salesFilePath, 'utf-8')
-    return JSON.parse(refreshedSales)
-}
-
-const sanitizeUser = (user) => {
-    if (!user) {
-        return null
-    }
-
-    const { contraseña, ...safeUser } = user
-    return safeUser
-}
+import {
+    createUser,
+    deleteUserById,
+    findUserByCredentials,
+    getUserById,
+    getUsers,
+    updateUserName
+} from '../db/actions/user.actions.js'
+import { getSalesByUserId } from '../db/actions/sale.actions.js'
 
 const router = Router()
 
 //Get de usuarios
-router.get('/', (req, res) => {
-    res.status(200).json(userData)
+router.get('/', async (req, res) => {
+    try {
+        const users = await getUsers()
+        res.status(200).json(users)
+    }
+    catch (error) {
+        res.status(500).json({ message: 'Error al obtener los usuarios' })
+    }
 })
 
 //Get de usuario por id
-router.get('/:id', (req, res) => {
-    const user = userData.find(u => u.id === parseInt(req.params.id))
-    if (user) {
-        res.status(200).json(sanitizeUser(user))
-    } else {
-        res.status(404).json({ message: 'Usuario no encontrado' })
+router.get('/:id', async (req, res) => {
+    const userId = parseInt(req.params.id, 10)
+
+    if (Number.isNaN(userId)) {
+        return res.status(400).json({ message: 'ID de usuario invalido' })
+    }
+
+    try {
+        const user = await getUserById(userId)
+        if (user) {
+            res.status(200).json(user)
+        } else {
+            res.status(404).json({ message: 'Usuario no encontrado' })
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Error al obtener el usuario' })
     }
 })
 
 //Login de usuarios
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
     const { email, contraseña, password } = req.body
     const inputPassword = contraseña ?? password
 
@@ -53,13 +51,17 @@ router.post('/login', (req, res) => {
         return res.status(400).json({ message: 'Faltan datos obligatorios' })
     }
 
-    const user = userData.find(u => u.email.toLowerCase() === email.toLowerCase() && u.contraseña === inputPassword)
+    try {
+        const user = await findUserByCredentials(email, inputPassword)
 
-    if (!user) {
-        return res.status(401).json({ message: 'Email o contraseña incorrectos' })
+        if (!user) {
+            return res.status(401).json({ message: 'Email o contraseña incorrectos' })
+        }
+
+        res.status(200).json({ message: 'Inicio de sesión exitoso', usuario: user })
+    } catch (error) {
+        res.status(500).json({ message: 'Error al iniciar sesión' })
     }
-
-    res.status(200).json({ message: 'Inicio de sesión exitoso', usuario: sanitizeUser(user) })
 })
 
 //Post de usuarios
@@ -70,27 +72,22 @@ router.post('/', async (req, res) => {
         return res.status(400).json({ message: 'Faltan datos obligatorios' })
     }
 
-    const emailExists = userData.some(u => u.email.toLowerCase() === email.toLowerCase())
-    if (emailExists) {
-        return res.status(409).json({ message: 'Este email ya está registrado' })
-    }
-
     try {
-        const newUser = {
-            id: userData.length > 0 ? Math.max(...userData.map(u => u.id)) + 1 : 1,
+        const newUser = await createUser({
             nombre,
             apellido,
             email,
             contraseña,
-            fecha_nacimiento: fecha_nacimiento ?? fecha ?? null,
-            ventas_ids: []
-        }
+            fecha_nacimiento: fecha_nacimiento ?? fecha ?? null
+        })
 
-        userData.push(newUser)
-        await saveUsers()
-        res.status(201).json({ message: 'Usuario creado', usuario: sanitizeUser(newUser) })
+        res.status(201).json({ message: 'Usuario creado', usuario: newUser })
     }
     catch (error) {
+        if (error.statusCode === 409) {
+            return res.status(409).json({ message: error.message })
+        }
+
         res.status(500).json({ message: 'Error al crear el usuario' })
     }
 })
@@ -102,18 +99,23 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
     const userId = parseInt(req.params.id, 10)
     const newName = req.body.nombre 
+
+    if (Number.isNaN(userId)) {
+        return res.status(400).json({ message: 'ID de usuario invalido' })
+    }
+
+    if (!newName || typeof newName !== 'string' || !newName.trim()) {
+        return res.status(400).json({ message: 'nombre debe ser un texto no vacio' })
+    }
+
     try {
-        const index = userData.findIndex(u => u.id === userId)
-        if (index !== -1)
-        {
-            userData[index].nombre = newName
-            await saveUsers()
+        const updatedUser = await updateUserName(userId, newName.trim())
+
+        if (updatedUser) {
             res.status(200).json({ message: 'Usuario actualizado' })
-        }
-        else
-            {
+        } else {
             res.status(400).json({ message: 'Usuario no encontrado' })
-            }
+        }
     }
     catch (error) 
     {        
@@ -130,19 +132,17 @@ router.delete('/:id', async (req, res) => {
     }
 
     try {
-        const index = userData.findIndex(u => u.id === userId)
-        if (index === -1) {
+        const user = await getUserById(userId)
+        if (!user) {
             return res.status(404).json({ message: 'Usuario no encontrado' })
         }
 
-        const currentSales = await getSalesData()
-        const hasSales = currentSales.some(v => v.id_usuario === userId)
+        const hasSales = await getSalesByUserId(userId)
         if (hasSales) {
             return res.status(409).json({ message: 'No se puede eliminar el usuario porque tiene ventas asociadas' })
         }
 
-        userData.splice(index, 1)
-        await saveUsers()
+        await deleteUserById(userId)
         res.status(200).json({ message: 'Usuario eliminado' })
     }
     catch (error) {

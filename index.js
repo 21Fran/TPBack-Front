@@ -1,5 +1,6 @@
 import express from 'express'
 import {readFile, writeFile} from 'fs/promises'
+import 'dotenv/config'
 
 import userRoutes from './routes/user.routes.js'
 import productRoutes from './routes/product.routes.js'
@@ -9,7 +10,7 @@ import saleRoutes from './routes/sale.routes.js'
 const app = express()
 
 //Configurar puerto
-const port = 3000
+const port = process.env.PORT
 
 //Levantar el servidor
 app.use(express.json())

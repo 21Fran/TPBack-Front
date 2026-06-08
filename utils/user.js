@@ -1,10 +1,5 @@
-import {readFile, writeFile} from 'fs/promises'
+import { getUserById } from '../db/actions/user.actions.js'
 
-
-//Rutas de usuarios
-const file = await readFile('./data/usuarios.json', 'utf-8')
-const userData = JSON.parse(file)
-
-export const get_user_by_id = (id) => {
-    return userData.find(u => u.id === id)
+export const get_user_by_id = async (id) => {
+    return getUserById(id)
 }
