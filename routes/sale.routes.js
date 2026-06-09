@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { get_user_by_id } from "../utils/user.js";
+import verifyToken from '../middlewares/auth.js'
 import {
     createSale,
     deleteSaleById,
@@ -43,8 +44,21 @@ router.get('/:id', async (req, res) => {
 })
 
 //Post de ventas
-router.post('', async (req, res) => {
-    const { id_usuario, fecha, total, dirección, productos } = req.body
+router.post('', verifyToken, async (req, res) => {
+    let { id_usuario, fecha, total, dirección, productos } = req.body
+
+    // require authenticated user
+    const authUserId = req.user?.id
+    if (!authUserId) {
+        return res.status(401).json({ message: 'Usuario no autenticado' })
+    }
+
+    // if id_usuario provided, ensure it matches the authenticated user
+    if (id_usuario !== undefined && Number(id_usuario) !== Number(authUserId)) {
+        return res.status(403).json({ message: 'No autorizado para crear venta para otro usuario' })
+    }
+
+    id_usuario = Number(authUserId)
 
     if (id_usuario === undefined || !fecha || total === undefined || !dirección || productos === undefined) {
         return res.status(400).json({ message: 'Faltan datos obligatorios' })

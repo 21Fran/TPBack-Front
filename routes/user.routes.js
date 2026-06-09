@@ -4,12 +4,19 @@ import {
     deleteUserById,
     findUserByCredentials,
     getUserById,
+    getUserByEmailRaw,
+    updateUserPassword,
     getUsers,
     updateUserName
 } from '../db/actions/user.actions.js'
+import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 import { getSalesByUserId } from '../db/actions/sale.actions.js'
 
 const router = Router()
+
+
+import { SECRET } from '../config/auth.config.js'
 
 //Get de usuarios
 router.get('/', async (req, res) => {
@@ -52,13 +59,40 @@ router.post('/login', async (req, res) => {
     }
 
     try {
-        const user = await findUserByCredentials(email, inputPassword)
+        const user = await getUserByEmailRaw(email)
 
         if (!user) {
             return res.status(401).json({ message: 'Email o contraseña incorrectos' })
         }
 
-        res.status(200).json({ message: 'Inicio de sesión exitoso', usuario: user })
+        let controlPass = false
+
+        try {
+            controlPass = bcrypt.compareSync(inputPassword, user.contraseña)
+        } catch (e) {
+            controlPass = false
+        }
+
+        // Support legacy plaintext passwords: if equal, accept and upgrade to hashed
+        if (!controlPass && inputPassword === user.contraseña) {
+            controlPass = true
+            const newHash = bcrypt.hashSync(inputPassword, 8)
+            try {
+                await updateUserPassword(user.id, newHash)
+                user.contraseña = newHash
+            } catch (e) {
+                // ignore upgrade failure, proceed with login if password matched
+            }
+        }
+
+        if (!controlPass) {
+            return res.status(401).json({ message: 'Email o contraseña incorrectos' })
+        }
+
+        const { contraseña: _pass, _id, __v, ...safeUser } = user
+        const token = jwt.sign({ result: safeUser }, SECRET, { expiresIn: 86400 })
+
+        res.status(200).json({ message: 'Inicio de sesión exitoso', usuario: safeUser, token })
     } catch (error) {
         res.status(500).json({ message: 'Error al iniciar sesión' })
     }
@@ -66,18 +100,22 @@ router.post('/login', async (req, res) => {
 
 //Post de usuarios
 router.post('/', async (req, res) => { 
-    const { nombre, apellido, email, contraseña, fecha_nacimiento, fecha } = req.body
+    const { nombre, apellido, email, contraseña, password, fecha_nacimiento, fecha } = req.body
+    const inputPassword = contraseña ?? password
 
-    if (!nombre || !apellido || !email || !contraseña) {
+    if (!nombre || !apellido || !email || !inputPassword) {
         return res.status(400).json({ message: 'Faltan datos obligatorios' })
     }
 
     try {
+        const hashedPass = bcrypt.hashSync(inputPassword, 8)
+        console.log(hashedPass)
+
         const newUser = await createUser({
             nombre,
             apellido,
             email,
-            contraseña,
+            contraseña: hashedPass,
             fecha_nacimiento: fecha_nacimiento ?? fecha ?? null
         })
 

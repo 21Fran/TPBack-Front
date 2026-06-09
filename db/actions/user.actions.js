@@ -47,6 +47,14 @@ export const getUserById = async (id) => {
     return normalizeUser(user)
 }
 
+export const getUserByEmailRaw = async (email) => {
+    await ensureUsersReady()
+    const normalizedEmail = String(email || '').toLowerCase()
+    const user = await User.findOne({ email: normalizedEmail })
+    if (!user) return null
+    return user.toObject ? user.toObject() : user
+}
+
 export const findUserByCredentials = async (email, contraseña) => {
     await ensureUsersReady()
     const normalizedEmail = String(email || '').toLowerCase()
@@ -94,4 +102,15 @@ export const deleteUserById = async (id) => {
     await ensureUsersReady()
     const deletedUser = await User.findOneAndDelete({ id }).lean()
     return normalizeUser(deletedUser)
+}
+
+export const updateUserPassword = async (id, hashedPassword) => {
+    await ensureUsersReady()
+    const updated = await User.findOneAndUpdate(
+        { id },
+        { $set: { contraseña: hashedPassword } },
+        { new: true, runValidators: true }
+    ).lean()
+
+    return normalizeUser(updated)
 }
